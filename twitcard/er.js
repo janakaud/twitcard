@@ -35,6 +35,7 @@ exports.handler = function(request, response) {
 ${user ? `<meta name="twitter:site" content="@${user}">
 <meta name="twitter:creator" content="${user}">` : ""}
 <meta name="twitter:url" content="${url}">
+<meta name="twitter:URL" content="${url}">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${description}">
 <meta name="twitter:image:src" content="${image}">
