@@ -34,6 +34,7 @@ exports.handler = function(request, response) {
 <meta name="twitter:card" content="summary_large_image">
 ${user ? `<meta name="twitter:site" content="@${user}">
 <meta name="twitter:creator" content="${user}">` : ""}
+<meta name="twitter:url" content="${url}">
 <link rel="canonical" href="${url}">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${description}">
