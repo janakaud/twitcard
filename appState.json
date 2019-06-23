@@ -22,7 +22,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "twitcard/er.js",
-        "code": "exports.handler = function(request, response) {\n\n    //TODO maybe remove this - and allow users to preview the generated metatags?\n    // if anyone other than Twitterbot hits this, there's something wrong!\n    if (!(request.headers[\"user-agent\"] || \"\").startsWith(\"Twitterbot\")) {\n        return response.status(400).json({error: \"Twitterbot's eyes only!\"});\n    }\n\n    let urlQry = request.query[\"url\"];\n    if (!urlQry) {\n        throw new TypeError(\"Missing target URL\");\n    }\n    let url = decodeURIComponent(urlQry);\n\n    let title = request.query[\"title\"];\n    let description = request.query[\"description\"];\n\n    let image = request.query[\"image\"];\n    if (image) {\n        image = decodeURIComponent(image);\n    }\n\n    // @-free Twitter username\n    let user = request.query[\"user\"];\n    if (user && user.startsWith(\"@\")) {\n        user = user.substring(1);\n    }\n\n    //TODO fetch any missing values from URL's metatags\n\n    response.send(`<!DOCTYPE html>\n<html>\n<head>\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n${user ? `<meta name=\"twitter:site\" content=\"@${user}\">\n<meta name=\"twitter:creator\" content=\"${user}\">` : \"\"}\n<meta name=\"twitter:url\" content=\"${url}\">\n<meta name=\"twitter:URL\" content=\"${url}\">\n<meta name=\"twitter:title\" content=\"${title}\">\n<meta name=\"twitter:description\" content=\"${description}\">\n<meta name=\"twitter:image:src\" content=\"${image}\">\n</head>\n</html>`);\n}",
+        "code": "exports.handler = function(request, response) {\n\n    //TODO maybe remove this - and allow users to preview the generated metatags?\n    // if anyone other than Twitterbot hits this, there's something wrong!\n    if (!(request.headers[\"user-agent\"] || \"\").startsWith(\"Twitterbot\")) {\n        return response.status(400).json({error: \"Twitterbot's eyes only!\"});\n    }\n\n    let urlQry = request.query[\"url\"];\n    if (!urlQry) {\n        throw new TypeError(\"Missing target URL\");\n    }\n    let url = decodeURIComponent(urlQry);\n\n    let title = request.query[\"title\"];\n    let description = request.query[\"description\"];\n\n    let image = request.query[\"image\"];\n    if (image) {\n        image = decodeURIComponent(image);\n    }\n\n    // @-free Twitter username\n    let user = request.query[\"user\"];\n    if (user && user.startsWith(\"@\")) {\n        user = user.substring(1);\n    }\n\n    //TODO fetch any missing values from URL's metatags\n\n    response.send(`<!DOCTYPE html>\n<html>\n<head>\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n${user ? `<meta name=\"twitter:site\" content=\"@${user}\">\n<meta name=\"twitter:creator\" content=\"${user}\">` : \"\"}\n<link rel=\"canonical\" href=\"${url}\">\n<meta name=\"twitter:title\" content=\"${title}\">\n<meta name=\"twitter:description\" content=\"${description}\">\n<meta name=\"twitter:image:src\" content=\"${image}\">\n</head>\n</html>`);\n}",
         "config": {
           "runtime": "nodejs8",
           "timeout": 60,
@@ -77,7 +77,7 @@
     "projectRegion": "us-east1",
     "platform": "GCP",
     "platformRegions": {},
-    "lastSave": 1561309942317
+    "lastSave": 1561310987679
   },
   "VCS_STATE": {
     "provider": "GitHub",
