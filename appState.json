@@ -1,0 +1,91 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "d74c3a26-fa19-4467-b899-a6747a7339a6": {
+        "id": "d74c3a26-fa19-4467-b899-a6747a7339a6",
+        "parent": null,
+        "name": "twitcard",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "1bffe796-9bda-4826-b71b-4a28c3956234"
+        ],
+        "isRemovable": false,
+        "filePath": "twitcard"
+      },
+      "1bffe796-9bda-4826-b71b-4a28c3956234": {
+        "id": "1bffe796-9bda-4826-b71b-4a28c3956234",
+        "parent": "d74c3a26-fa19-4467-b899-a6747a7339a6",
+        "name": "er.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "twitcard/er.js",
+        "code": "exports.handler = function(request, response) {\n\n    //TODO maybe remove this - and allow users to preview the generated metatags?\n    // if anyone other than Twitterbot hits this, there's something wrong!\n    if (!(request.headers[\"user-agent\"] || \"\").startsWith(\"Twitterbot\")) {\n        return response.status(400).json({error: \"Twitterbot's eyes only!\"});\n    }\n\n    let urlQry = request.query[\"url\"];\n    if (!urlQry) {\n        throw new TypeError(\"Missing target URL\");\n    }\n    let url = decodeURIComponent(urlQry);\n\n    let title = request.query[\"title\"];\n    let description = request.query[\"description\"];\n\n    let image = request.query[\"image\"];\n    if (image) {\n        image = decodeURIComponent(image);\n    }\n\n    // @-free Twitter username\n    let user = request.query[\"user\"];\n    if (user && user.startsWith(\"@\")) {\n        user = user.substring(1);\n    }\n\n    //TODO fetch any missing values from URL's metatags\n\n    response.send(`<!DOCTYPE html>\n<html>\n<head>\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n${user ? `<meta name=\"twitter:site\" content=\"@${user}\">\n<meta name=\"twitter:creator\" content=\"${user}\">` : \"\"}\n<meta name=\"twitter:url\" content=\"${url}\">\n<meta name=\"twitter:title\" content=\"${title}\">\n<meta name=\"twitter:description\" content=\"${description}\">\n<meta name=\"twitter:image:src\" content=\"${image}\">\n</head>\n</html>`);\n}",
+        "config": {
+          "runtime": "nodejs8",
+          "timeout": 60,
+          "memory": 128,
+          "triggerType": 0
+        },
+        "triggers": [
+          {
+            "resourceName": "http-trigger",
+            "config": {}
+          }
+        ]
+      },
+      "79014162-7806-48da-97f4-5255385473b0": {
+        "id": "79014162-7806-48da-97f4-5255385473b0",
+        "parent": null,
+        "name": "index.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": false,
+        "filePath": "index.js",
+        "code": "// This file is used to register all your cloud functions in GCP.\n// DO NOT EDIT/DELETE THIS, UNLESS YOU KNOW WHAT YOU ARE DOING.\n\nexports.twitcarder = require(\"./twitcard/er.js\").handler;"
+      }
+    },
+    "deletedFiles": [
+      "twitcard/function.js"
+    ],
+    "rootNode": "d74c3a26-fa19-4467-b899-a6747a7339a6",
+    "openFiles": [
+      "1bffe796-9bda-4826-b71b-4a28c3956234"
+    ],
+    "currentFileId": "1bffe796-9bda-4826-b71b-4a28c3956234",
+    "resources": {
+      "http-trigger": {
+        "name": "http-trigger",
+        "type": "http-trigger",
+        "config": {}
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [],
+    "packageJSON": {
+      "dependencies": {}
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "twitcard",
+    "projectDescription": "Generate mock Twitter cards for webpages that don't have Twitter meta tags",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east1",
+    "platform": "GCP",
+    "platformRegions": {},
+    "lastSave": 1561308978088
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "twitcard",
+      "url": "https://github.com/janakaud/twitcard"
+    }
+  }
+}
